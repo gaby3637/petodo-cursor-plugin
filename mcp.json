@@ -1,0 +1,7 @@
+{
+  "mcpServers": {
+    "petodo": {
+      "url": "https://app.petodoapp.com/api/mcp"
+    }
+  }
+}

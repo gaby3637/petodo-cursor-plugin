@@ -1,0 +1,14 @@
+{
+  "name": "petodo",
+  "version": "1.0.0",
+  "description": "Your Petodo to-do list for your agent. Start a task with the agent's @handle and, when it is due, the agent picks it up, works it, reports back and ticks it off. It can also read your list, add tasks in plain language and tick them off.",
+  "author": {
+    "name": "Petodo",
+    "email": "hello@petodoapp.com"
+  },
+  "homepage": "https://petodoapp.com/petodo/help/#connectors",
+  "repository": "https://github.com/gaby3637/petodo-cursor-plugin",
+  "license": "MIT",
+  "keywords": ["petodo", "todo", "tasks", "errands", "productivity", "agents", "mcp"],
+  "logo": "assets/logo.png"
+}
