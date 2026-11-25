@@ -14,6 +14,8 @@ tomorrow 2pm"), tick them off, and tell you what is overdue.
   There is nothing to configure: no key, no variables.
 - `skills/petodo-errands`: how to work errands and the list with Petodo's
   tools.
+- `MCP.md`: the server's documentation: sign-in, every tool's inputs,
+  outputs and Read or Write class, errors and rate limits.
 
 ## Setup
 
