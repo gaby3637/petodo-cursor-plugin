@@ -26,7 +26,10 @@ this repository points at this server; any MCP client can use it directly.
   (with a client secret, `client_secret_basic` or `client_secret_post`).
 - Authorization code with PKCE, `S256` only. The `resource` parameter is
   checked (RFC 8707) and every authorization answer carries `iss` (RFC 9207).
-- Scope: `agent`, the only one. Read-only access is not offered yet.
+- Scopes: `agent` (the errands and the list) and `agent:read` (the same,
+  read only). The consent page also has an "Only let it read" box. A read-only
+  connection is shown only `get_my_errands`, `list_tasks` and `get_report`,
+  and every change is refused (`403`).
 - The person signs in on Petodo's own page (email link, Google, GitHub or
   Apple; reviewer accounts use a password), sees what the app can and cannot
   do, picks which @handle it answers as, and presses Allow or Cancel.
@@ -153,8 +156,8 @@ A summary of the list: what is overdue, due soon and done.
 | Answer | When |
 |---|---|
 | `401` with `error="invalid_token"` | The key is wrong or was removed. Sign in again. |
-| `402` (JSON-RPC `-32002`) | The account has no Petodo Pro, or its trial ended. |
-| `403` (JSON-RPC `-32001`) | The key may not do this (for example an account route). |
+| `402` (JSON-RPC `-32002`) | The account does not include agent access (no Petodo Pro, or its trial ended). The message says only that; the account owner sees why in Petodo. |
+| `403` (JSON-RPC `-32001`) | The key may not do this (an account route, or a change on a read-only connection). |
 | `404` | No such task or errand (`ref` and `id` come from the read tools). |
 | `429` | Too many requests; try again later. |
 
