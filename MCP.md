@@ -85,7 +85,8 @@ The errands due now for this connection's @handle.
 
 ### claim_errand (Write)
 
-Say the agent is taking an errand.
+Say the agent is taking an errand. Optional: `report_errand` claims an
+errand it has not been told about yet.
 
 - Input: `ref` (required).
 - Output: the errand's new state.
@@ -120,7 +121,8 @@ The person's tasks.
 - Input: `status` (`open`, `done` or `all`), `day` (`today`, `tomorrow` or
   `all`). Both optional.
 - Output: `count` and `tasks` (each with `id`, `title`, `done`, `day`,
-  `dueAt`).
+  `dueAt`), at most 100; a longer list adds `more` (how many were left out)
+  and a `hint` to narrow it with `status` or `day`.
 - Side effects: none.
 
 ### add_task (Write)
@@ -137,9 +139,11 @@ read in the person's own time zone.
 
 Tick a task off, or reopen it.
 
-- Input: `id` (required, from `list_tasks`), `done` (default true; false
-  reopens).
-- Output: `ok`, `id`, `done`.
+- Input: `id` (required: the id from `list_tasks`, or the task's title; a
+  title matches the same title in any case, or the only title containing it),
+  `done` (default true; false reopens).
+- Output: `ok`, `id`, `done`, and `title` when it was found by title. More
+  than one match is an error that names them.
 - Side effects: the task is ticked off or reopened on every device. For a
   repeating task, today's copy is the one ticked off.
 
@@ -161,9 +165,13 @@ A summary of the list: what is overdue, due soon and done.
 | `404` | No such task or errand (`ref` and `id` come from the read tools). |
 | `429` | Too many requests; try again later. |
 
-Rate limits: 120 errand reads an hour per key (polling every 30 seconds
-fits), 600 changes an hour per account, 60 authorization requests an hour per
-IP address.
+Rate limits: 120 errand calls an hour per key, 600 changes an hour per
+account, 60 authorization requests an hour per
+IP address. There is no need to come close: `get_my_errands` answers with
+`checkAgainAt` (when the next errand comes due, or about ten minutes), and
+looking sooner finds nothing new. An errand takes two calls,
+`get_my_errands` and `report_errand` with `done` (reporting claims it), and
+`complete_task` takes a task's title as well as its id.
 
 ## Who can use it
 
